@@ -3,7 +3,8 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "module": "ESNext",
-    "target": "es5",
+    "target": "ES6",
+    "lib": ["es2015", "dom"],
     "jsx": "react-jsx",
     "allowJs": true,
     "moduleResolution": "node",
@@ -12,7 +13,8 @@
   },
   "ts-node": {
     "compilerOptions": {
-      "module": "CommonJS"
+      "module": "CommonJS",
+
     }
   }
 }
