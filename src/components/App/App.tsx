@@ -2,23 +2,28 @@ import styles from "./App.module.scss";
 import PostForm from "../PostForm/PostForm";
 import PostList from "../PostList/PostList";
 import { TPost } from "../PostItem/PostItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../UI/Button/Button";
 import Modal from "../Modal/Modal";
 import PostFilter from "../PostFilter/PostFilter";
 import { TFilter } from "../../types/types";
 import { usePost } from "../../hooks/usePost";
+import { fetchPosts } from "../../api/appApi";
+import { useFetch } from "../../hooks/useFetch";
+import Loader from "../UI/Loader/Loader";
 
 // todo Создать слайсы
 const App = () => {
-  const [posts, setPosts] = useState<TPost[]>([
-    { id: "1", title: "А1", body: "дд" },
-    { id: "2", title: "Б2", body: "гг" },
-    { id: "3", title: "В3", body: "вв" },
-    { id: "4", title: "Г4", body: "бб" },
-    { id: "5", title: "Д5", body: "аа" },
-  ]);
+  const [getPosts, isLoading, error] = useFetch(async () => {
+    const posts = await fetchPosts();
+    setPosts(posts);
+  });
+  const [posts, setPosts] = useState<TPost[]>([]);
+  useEffect(() => {
+    getPosts();
+  }, []);
 
+  // async function getPosts() {}
   const [visibleModal, setVisibleModal] = useState<boolean>(false);
   const [filter, setFilter] = useState<TFilter>({ sort: "title", query: "" });
 
@@ -45,11 +50,16 @@ const App = () => {
         <PostForm create={createPost} title={"Создать пост"} />
       </Modal>
       <PostFilter filter={filter} setFilter={setFilter}></PostFilter>
-      <PostList
-        title={"Список постов"}
-        posts={sortedAndSearchedPost || null}
-        remove={deletePost}
-      ></PostList>
+      {error && <h1>{error}</h1>}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <PostList
+          title={"Список постов"}
+          posts={sortedAndSearchedPost || null}
+          remove={deletePost}
+        />
+      )}
     </div>
   );
 };
