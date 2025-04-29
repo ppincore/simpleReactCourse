@@ -1,7 +1,8 @@
 import React from "react";
 import PostItem from "../PostItem/PostItem";
 import { TPost } from "../PostItem/PostItem";
-import styles from './PostList.module.scss'
+import styles from "./PostList.module.scss";
+
 type TPostListProps = {
   posts?: TPost[];
   remove: (post: TPost) => void;
@@ -11,11 +12,7 @@ type TPostListProps = {
 const PostList = (props: TPostListProps) => {
   const { posts, remove, title } = props;
   if (!posts.length) {
-    return (
-      <>
-        <h1 className={styles.title}>{`Список постов пуст :(`}</h1>
-      </>
-    );
+    return <h1 className={styles.title}>Посты не найдены</h1>;
   }
   return (
     <div>
