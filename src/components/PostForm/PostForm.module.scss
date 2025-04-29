@@ -1,9 +1,11 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 15px;
   width: 400px;
   margin: 0 auto;
+  
 }
 .form {
   display: flex;
