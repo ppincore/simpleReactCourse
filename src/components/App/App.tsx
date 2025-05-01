@@ -11,21 +11,28 @@ import { usePost } from "../../hooks/usePost";
 import { fetchPosts } from "../../api/appApi";
 import { useFetch } from "../../hooks/useFetch";
 import Loader from "../UI/Loader/Loader";
+import { getPageCount } from "../../utils/pages";
 
 // todo Создать слайсы
 const App = () => {
-  const [getPosts, isLoading, error] = useFetch(async () => {
-    const posts = await fetchPosts();
-    setPosts(posts);
-  });
+
+  const [visibleModal, setVisibleModal] = useState<boolean>(false);
+  const [filter, setFilter] = useState<TFilter>({ sort: "title", query: "" });
   const [posts, setPosts] = useState<TPost[]>([]);
+  const [totalPages, setTotalPages] =useState<number>(0)
+  const [page, setPage] = useState<number>(1)
+  const [limit, setLimit] = useState<number>(10)
+
+  const [getPosts, isLoading, error] = useFetch(async () => {
+    const posts = await fetchPosts(limit,page);
+    setPosts(posts.data);
+    const totalCount = posts.headers['x-total-count']
+    setTotalPages(getPageCount(totalCount,limit))
+  });
+
   useEffect(() => {
     getPosts();
   }, []);
-
-  // async function getPosts() {}
-  const [visibleModal, setVisibleModal] = useState<boolean>(false);
-  const [filter, setFilter] = useState<TFilter>({ sort: "title", query: "" });
 
   const sortedAndSearchedPost = usePost({
     sort: filter.sort,
