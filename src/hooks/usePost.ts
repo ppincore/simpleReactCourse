@@ -3,7 +3,7 @@ import { useMemo } from "react";
 
 type TuseSortedPost = {
   posts: TPost[];
-  sort: keyof TPost;
+  sort: keyof TPost | "";
 };
 
 type TusePostProps = {
