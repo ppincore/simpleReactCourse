@@ -21,7 +21,7 @@ const PostItem: FC<TPostItemProps> = (props: TPostItemProps) => {
     <div className={styles.post}>
       <div>
         <strong>
-          {number}. {post.title}
+          {post.id}. {post.title}
         </strong>
         <div>{post.body}</div>
       </div>

@@ -13,10 +13,11 @@ import { useFetch } from "../../hooks/useFetch";
 import Loader from "../UI/Loader/Loader";
 import { getPageCount } from "../../utils/pages";
 import { usePagination } from "../../hooks/usePagintion";
+import Pagination from "../UI/Pagination/Pagination";
 // todo Создать слайсы
 const App = () => {
   const [visibleModal, setVisibleModal] = useState<boolean>(false);
-  const [filter, setFilter] = useState<TFilter>({ sort: "title", query: "" });
+  const [filter, setFilter] = useState<TFilter>({ sort: "", query: "" });
   const [posts, setPosts] = useState<TPost[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
@@ -33,7 +34,7 @@ const App = () => {
   // console.log(pagesArray);
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [page]);
 
   const sortedAndSearchedPost = usePost({
     sort: filter.sort,
@@ -48,7 +49,11 @@ const App = () => {
   const createPost = (newPost: TPost) => {
     setPosts([...posts, newPost]);
   };
-  // console.log(page)
+
+  const changePage = (page:number) => {
+    setPage(page)
+  } 
+  console.log(page)
   return (
     <div className={styles.app}>
       <Button onClick={() => setVisibleModal(!visibleModal)}>
@@ -68,9 +73,7 @@ const App = () => {
           remove={deletePost}
         />
       )}
-      {pagesArray.map((p) => (
-        <Button key={p} onClick={()=>setPage(p)} children={p} />
-      ))}
+      <Pagination setPage={changePage} pagesArray={pagesArray} currentPage={page}/>
     </div>
   );
 };
