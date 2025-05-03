@@ -12,24 +12,25 @@ import { fetchPosts } from "../../api/appApi";
 import { useFetch } from "../../hooks/useFetch";
 import Loader from "../UI/Loader/Loader";
 import { getPageCount } from "../../utils/pages";
-
+import { usePagination } from "../../hooks/usePagintion";
 // todo Создать слайсы
 const App = () => {
-
   const [visibleModal, setVisibleModal] = useState<boolean>(false);
   const [filter, setFilter] = useState<TFilter>({ sort: "title", query: "" });
   const [posts, setPosts] = useState<TPost[]>([]);
-  const [totalPages, setTotalPages] =useState<number>(0)
-  const [page, setPage] = useState<number>(1)
-  const [limit, setLimit] = useState<number>(10)
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
 
   const [getPosts, isLoading, error] = useFetch(async () => {
-    const posts = await fetchPosts(limit,page);
+    const posts = await fetchPosts(limit, page);
     setPosts(posts.data);
-    const totalCount = posts.headers['x-total-count']
-    setTotalPages(getPageCount(totalCount,limit))
+    const totalCount = posts.headers["x-total-count"];
+    setTotalPages(getPageCount(totalCount, limit));
   });
 
+  const pagesArray = usePagination(totalPages);
+  // console.log(pagesArray);
   useEffect(() => {
     getPosts();
   }, []);
@@ -47,7 +48,7 @@ const App = () => {
   const createPost = (newPost: TPost) => {
     setPosts([...posts, newPost]);
   };
-
+  // console.log(page)
   return (
     <div className={styles.app}>
       <Button onClick={() => setVisibleModal(!visibleModal)}>
@@ -67,6 +68,9 @@ const App = () => {
           remove={deletePost}
         />
       )}
+      {pagesArray.map((p) => (
+        <Button key={p} onClick={()=>setPage(p)} children={p} />
+      ))}
     </div>
   );
 };
