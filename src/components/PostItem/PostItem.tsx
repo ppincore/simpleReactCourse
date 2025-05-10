@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import Button from "../UI/Button/Button";
 import styles from "./PostItem.module.scss";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router";
 
 type TPostItemProps = {
   post: TPost;
@@ -9,14 +11,16 @@ type TPostItemProps = {
 };
 
 export type TPost = {
-  id: string ;
+  id: string;
   title: string;
   body: string;
 };
 
-
 const PostItem: FC<TPostItemProps> = (props: TPostItemProps) => {
   const { post, number, remove } = props;
+  const router = useNavigate()
+  const location = useLocation()
+  console.log(router, location)
   return (
     <div className={styles.post}>
       <div>
@@ -25,8 +29,11 @@ const PostItem: FC<TPostItemProps> = (props: TPostItemProps) => {
         </strong>
         <div>{post.body}</div>
       </div>
-      <div>
-        <Button className={styles.button__delete} onClick={()=>remove(post)}>
+      <div className={styles.buttons_wrapper}>
+        <Button className={styles.button} onClick={() =>{}}>
+          Открыть
+        </Button>
+        <Button className={styles.button} onClick={() => remove(post)}>
           Удалить
         </Button>
       </div>

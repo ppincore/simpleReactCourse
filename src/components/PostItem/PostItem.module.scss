@@ -6,11 +6,16 @@
   align-items: center;
   margin-top: 10px;
 }
-.button__delete {
+.buttons_wrapper{
+  display: flex;
+  gap: 5px;;
+}
+.button {
   height: 40px;
   padding: 5px 10px;
   background-color: #a0a0a0;
   font-weight: 600;
+  min-width: 90px;
   border: 2px solid black;
   &:hover {
     color: #c5c5c5;
