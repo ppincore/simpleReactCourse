@@ -1,13 +1,12 @@
-import React from 'react';
-import Posts from '../../pages/Posts/Posts';
-import NotFound from '../../pages/notFound/NotFound';
-import { Routes, Route } from 'react-router-dom';
+import React from "react";
+import NavBar from "../NavBar/NavBar";
+import AppRouter from "../AppRouter/AppRouter";
 const App = () => {
   return (
-    <Routes>
-      <Route path='/posts' element={<Posts/>} />
-      <Route path='*' element={<NotFound/>} />
-    </Routes>
+    <>
+      <NavBar/>
+      <AppRouter/>
+    </>
   );
 };
 
