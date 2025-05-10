@@ -1,0 +1,17 @@
+.navbar{
+  display: flex;
+  flex-direction: row;
+  // width: 100vw;
+  height: 30px;
+  background-color: lightblue;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 50px;
+  padding: 0 20px;
+}
+
+.navlinks{
+  font-weight: 700;
+  color: #000;
+  font-size: 20px;
+}
