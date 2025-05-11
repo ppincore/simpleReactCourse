@@ -56,6 +56,7 @@ const Posts = () => {
   console.log(page)
   return (
     <div className={styles.posts}>
+
       <Button onClick={() => setVisibleModal(!visibleModal)}>
         Написать пост
       </Button>
