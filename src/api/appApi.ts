@@ -17,6 +17,6 @@ export const fetchPostById = async (id: string) => {
 };
 
 export const fetchCommentsById = async (id: string) => {
-  const response = await axios.get(`${URL}/coments/${id}`);
+  const response = await axios.get(`${URL}/posts/${id}/comments`);
   return response;
 };

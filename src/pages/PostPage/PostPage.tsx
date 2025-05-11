@@ -1,29 +1,33 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchPostById } from "../../api/appApi";
+import { fetchPostById, fetchCommentsById } from "../../api/appApi";
 import { TPost } from "../../components/PostItem/PostItem";
+import { TComment } from "../../types/types";
 import { useFetch } from "../../hooks/useFetch";
-
 import Loader from "../../components/UI/Loader/Loader";
 
 const PostPage = () => {
   const params = useParams();
   const [post, setPost] = useState<TPost | null>(null);
-  const [comments, setComments] = useState()
+  const [comments, setComments] = useState<TComment[] | null>(null);
   const [fetchPost, isLoading, error] = useFetch(async () => {
     const response = await fetchPostById(params.id);
     setPost(response.data);
   });
-  const [fetchComments, isLoadingComents, commentsError] = useFetch(async () => {
-    const response = await fetchPostById(params.id);
-    setPost(response.data);
-  });
+  const [fetchComments, isLoadingComents, commentsError] = useFetch(
+    async () => {
+      const response = await fetchCommentsById(params.id);
+      console.log(response.data);
+      setComments(response.data);
+    }
+  );
 
   useEffect(() => {
     if (params.id) {
       fetchPost();
-    } else{
-      throw Error(error)
+      fetchComments();
+    } else {
+      throw Error(error);
     }
   }, []);
 
@@ -42,6 +46,21 @@ const PostPage = () => {
         </>
       )}
       <h1>Комментарии</h1>
+      {isLoadingComents ? (
+        <Loader />
+      ) : (
+        <>
+          {comments?.map((comm) => {
+            console.log(comm);
+            return (
+              <>
+                <div>{comm?.email}</div>
+                <div>{comm?.body}</div>
+              </>
+            );
+          })}
+        </>
+      )}
     </>
   );
 };
